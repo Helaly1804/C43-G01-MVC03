@@ -24,13 +24,15 @@
 		<tbody class="text-center">
 			@foreach(var deparment in Model)
 			{
-				<tr>@deparment.Code</tr>
-				<tr>@deparment.Name</tr>
-				<tr>@deparment.Description</tr>
-				<tr>@deparment.CreatedOn</tr>
-				<tr><a class="btn btn-primary" asp-action="Details"><i class="fas fa-eye"></i> Details</a></tr>
-				<tr><a class="btn btn-success" asp-action="Edit"><i class="fas fa-edit"></i> Edit</a></tr>
-				<tr><a class="btn btn-danger" asp-action="Delete"><i class="fas fa-trash"></i> Delete</a></tr>
+				<tr>
+					<td>@deparment.Code</td>
+					<td>@deparment.Name</td>
+					<td>@deparment.Description</td>
+					<td>@deparment.CreatedOn</td>
+					<td><a class="btn btn-primary" asp-action="Details"><i class="fas fa-eye"></i> Details</a></td>
+					<td><a class="btn btn-success" asp-action="Edit"><i class="fas fa-edit"></i> Edit</a></td>
+					<td><a class="btn btn-danger" asp-action="Delete"><i class="fas fa-trash"></i> Delete</a></td>
+				</tr>
 			}
 		</tbody>
 	</table>
