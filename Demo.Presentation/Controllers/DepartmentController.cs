@@ -28,7 +28,6 @@ namespace Demo.Presentation.Controllers
                     int result = departmentService.AddDepartment(department);
                     if (result > 0)
                     {
-                        departmentService.AddDepartment(department);
                         return RedirectToAction(nameof(Index));
                     }
                     else
@@ -46,6 +45,29 @@ namespace Demo.Presentation.Controllers
                 ModelState.AddModelError("", "The model is not valid");
 
             return View(department);
+        }
+        [HttpGet]
+        public IActionResult Details(int Id)
+        {
+            var department = departmentService.GetDepartmentDetails(Id);
+            if (department == null)
+            {
+                return NotFound();
+            }
+            return View(department);
+        }
+        public IActionResult Edit(int? id)
+        {
+            if (id ==null)
+                return NotFound();
+            else
+            {
+                var department = departmentService.GetDepartmentDetails(id.Value);
+                if (department == null)
+                    return NotFound();
+                else
+                    return View(department);
+            }
         }
     }
 }
