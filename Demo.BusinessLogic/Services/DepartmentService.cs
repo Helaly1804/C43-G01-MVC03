@@ -1,7 +1,7 @@
 ﻿using Demo.BusinessLogic.DataTransferObjects;
 using Demo.BusinessLogic.Factories;
 using Demo.DataAccess.Models;
-using Demo.DataAccess.Repositories;
+using Demo.DataAccess.Repositories.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
