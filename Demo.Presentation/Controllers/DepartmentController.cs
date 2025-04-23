@@ -112,5 +112,31 @@ namespace Demo.Presentation.Controllers
                 ModelState.AddModelError("", "The model is not valid");
             return View(department);
         }
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            if (id <= 0)
+                return BadRequest();
+            try
+            {
+                int result = departmentService.DeleteDepartment(id);
+                if (result > 0)
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    ModelState.AddModelError("", "The Department can't be deleted");
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_environment.IsDevelopment())
+                    ModelState.AddModelError("", ex.Message);
+                else
+                    _logger.LogError(ex.Message);
+            }
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
