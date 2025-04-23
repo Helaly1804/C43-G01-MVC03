@@ -1,5 +1,6 @@
 ﻿using Demo.BusinessLogic.DataTransferObjects;
 using Demo.BusinessLogic.Services;
+using Demo.Presentation.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Presentation.Controllers
@@ -56,9 +57,10 @@ namespace Demo.Presentation.Controllers
             }
             return View(department);
         }
+        [HttpGet]
         public IActionResult Edit(int? id)
         {
-            if (id ==null)
+            if (id == null)
                 return NotFound();
             else
             {
@@ -66,8 +68,49 @@ namespace Demo.Presentation.Controllers
                 if (department == null)
                     return NotFound();
                 else
-                    return View(department);
+                    return View(new DepartmentEditViewModel
+                    {
+                        Id = department.Id,
+                        Name = department.Name,
+                        Code = department.Code,
+                        Description = department.Description,
+                        CreatedOn = department.CreatedOn
+                    });               
             }
+        }
+        [HttpPost]
+        public IActionResult Edit([FromRoute]int id,DepartmentEditViewModel department)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var updatedDepartment = new UpdatedDepartmentDto
+                    {
+                        Id = id,
+                        Name = department.Name,
+                        Code = department.Code,
+                        Description = department.Description
+                    };
+                    int result = departmentService.UpdateDepartment(updatedDepartment);
+                    if (result > 0)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                        ModelState.AddModelError("", "The Department can't be updated");
+                }
+                catch (Exception ex)
+                {
+                    if (_environment.IsDevelopment())
+                        ModelState.AddModelError("", ex.Message);
+                    else
+                        _logger.LogError(ex.Message);
+                }
+            }
+            else
+                ModelState.AddModelError("", "The model is not valid");
+            return View(department);
         }
     }
 }

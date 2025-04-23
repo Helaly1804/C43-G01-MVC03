@@ -60,7 +60,14 @@ namespace Demo.BusinessLogic.Factories
             if (updatedDepartmentDto is null)
                 throw new ArgumentNullException(nameof(updatedDepartmentDto));
             else
-                return updatedDepartmentDto.ToEntity();
+                return new Department
+                {
+                    Id = updatedDepartmentDto.Id,
+                    Name = updatedDepartmentDto.Name,
+                    Code = updatedDepartmentDto.Code,
+                    Description = updatedDepartmentDto.Description,
+                    CreatedOn = updatedDepartmentDto.DateOfCreation.ToDateTime(new TimeOnly()) // This should be replaced with the actual user who created the department
+                };
 
         }
     }
