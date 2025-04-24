@@ -1,7 +1,9 @@
-using Demo.BusinessLogic.Services;
+using Demo.BusinessLogic.Profiles;
+using Demo.BusinessLogic.Services.Classes;
+using Demo.BusinessLogic.Services.Interfaces;
 using Demo.DataAccess.Data.Context;
 using Demo.DataAccess.Repositories.Classes;
-using Demo.DataAccess.Repositories.Repositories;
+using Demo.DataAccess.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Demo.Presentation
@@ -21,6 +23,8 @@ namespace Demo.Presentation
             );
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            builder.Services.AddAutoMapper(M => M.AddProfile(new MappingProfiles()));
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
