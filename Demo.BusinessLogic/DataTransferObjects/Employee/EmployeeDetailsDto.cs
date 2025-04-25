@@ -21,5 +21,9 @@ namespace Demo.BusinessLogic.DataTransferObjects.Employee
         public DateOnly HireDate { get; set; }
         public string Gender { get; set; }
         public string EmployeeType { get; set; }
+        public int CreatedBy { get; set; }
+        public DateOnly CreatedOn { get; set; }
+        public int LastModifiedBy { get; set; }
+        public DateOnly LastModifiedOn { get; set; }
     }
 }
