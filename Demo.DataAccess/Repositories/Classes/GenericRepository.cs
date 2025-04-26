@@ -18,9 +18,9 @@ namespace Demo.DataAccess.Repositories.Classes
         public IEnumerable<TEntity> getAll(bool track = false)
         {
             if (track)
-                return dbContext.Set<TEntity>().ToList();
+                return dbContext.Set<TEntity>().Where(x => x.IsDeleted == false).ToList();
             else
-                return dbContext.Set<TEntity>().AsNoTracking().ToList();
+                return dbContext.Set<TEntity>().Where(x => x.IsDeleted == false).AsNoTracking().ToList();
 
         }
         public int add(TEntity department)

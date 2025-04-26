@@ -5,7 +5,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Presentation.Controllers
 {
-    public class EmployeeController(IEmployeeService employeeService) : Controller
+    public class EmployeeController(IEmployeeService employeeService ,
+        ILogger<EmployeeController> logger,
+        IWebHostEnvironment environment) : Controller
     {
         public IActionResult Index()
         {
@@ -112,6 +114,29 @@ namespace Demo.Presentation.Controllers
                 ModelState.AddModelError("", "Invalid data");
             return View(employee);
         }
-
+        public IActionResult Delete(int? id)
+        {
+            if (id.HasValue)
+            {
+                try
+                {
+                    var employee = employeeService.DeleteEmployee(id.Value);
+                    if (employee)
+                        return RedirectToAction("Index");
+                    else
+                        ModelState.AddModelError("", "Failed to delete employee");
+                }
+                catch(Exception ex)               
+                {
+                    if (environment.IsDevelopment())
+                        ModelState.AddModelError("", ex.Message);
+                    else
+                        logger.LogError(ex.Message);
+                }                
+            }
+            else
+               ModelState.AddModelError("", "Invalid data");
+            return RedirectToAction("Index");
+        }
     }
 }
