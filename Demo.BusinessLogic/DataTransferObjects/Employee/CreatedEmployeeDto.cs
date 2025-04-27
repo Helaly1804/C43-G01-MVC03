@@ -35,5 +35,6 @@ namespace Demo.BusinessLogic.DataTransferObjects.Employee
         public DateOnly HireDate { get; set; }
         public string Gender { get; set; }
         public string EmployeeType { get; set; }
+        public int? DepartmentId { get; set; }
     }
 }

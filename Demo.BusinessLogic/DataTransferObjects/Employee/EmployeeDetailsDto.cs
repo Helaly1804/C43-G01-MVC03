@@ -25,5 +25,6 @@ namespace Demo.BusinessLogic.DataTransferObjects.Employee
         public DateOnly CreatedOn { get; set; }
         public int LastModifiedBy { get; set; }
         public DateOnly LastModifiedOn { get; set; }
+        public int? DepartmentId { get; set; }
     }
 }

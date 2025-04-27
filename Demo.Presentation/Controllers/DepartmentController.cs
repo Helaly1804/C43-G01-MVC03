@@ -21,12 +21,19 @@ namespace Demo.Presentation.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(CreatedDepartmentDto department)
+        public IActionResult Create(DepartmentViewModel department1)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    var department = new CreatedDepartmentDto
+                    {
+                        Name = department1.Name,
+                        Code = department1.Code,
+                        Description = department1.Description,
+                        DateOfCreation = department1.CreatedOn                     
+                    };
                     int result = departmentService.AddDepartment(department);
                     if (result > 0)
                     {
@@ -46,7 +53,7 @@ namespace Demo.Presentation.Controllers
             else
                 ModelState.AddModelError("", "The model is not valid");
 
-            return View(department);
+            return View(department1);
         }
         [HttpGet]
         public IActionResult Details(int Id)
@@ -69,7 +76,7 @@ namespace Demo.Presentation.Controllers
                 if (department == null)
                     return NotFound();
                 else
-                    return View(new DepartmentEditViewModel
+                    return View(new DepartmentViewModel
                     {
                         Id = department.Id,
                         Name = department.Name,
@@ -80,7 +87,7 @@ namespace Demo.Presentation.Controllers
             }
         }
         [HttpPost]
-        public IActionResult Edit([FromRoute]int id,DepartmentEditViewModel department)
+        public IActionResult Edit([FromRoute]int id,DepartmentViewModel department)
         {
             if (ModelState.IsValid)
             {

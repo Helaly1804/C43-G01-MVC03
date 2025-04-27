@@ -20,12 +20,27 @@ namespace Demo.Presentation.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(CreatedEmployeeDto employee)
+        public IActionResult Create(EmployeeViewModel employee1)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
+                    CreatedEmployeeDto employee = new CreatedEmployeeDto
+                    {
+                        Name = employee1.Name,
+                        Email = employee1.Email,
+                        Address = employee1.Address,
+                        PhoneNumber = employee1.PhoneNumber,
+                        Age = employee1.Age,
+                        Salary = employee1.Salary,
+                        IsActive = employee1.IsActive,
+                        CreatedBy = employee1.CreatedBy,
+                        LastModifiedBy = employee1.LastModifiedBy,
+                        DepartmentId = employee1.DepartmentId,
+                        Gender = employee1.Gender,
+                        EmployeeType = employee1.EmployeeType
+                    };
                     int result = employeeService.AddEmployee(employee);
                     if (result > 0)
                         return RedirectToAction("Index");
@@ -41,7 +56,7 @@ namespace Demo.Presentation.Controllers
             }
             else
                 ModelState.AddModelError("", "Invalid data");
-            return View(employee);
+            return View(employee1);
         }
         [HttpGet]
         public IActionResult Details([FromRoute]int? id)
@@ -62,7 +77,7 @@ namespace Demo.Presentation.Controllers
                 var employee = employeeService.GetEmployeeDetails(id.Value);
                 if (employee == null) return NotFound();
                 else
-                    return View(new EmployeeEditViewModel
+                    return View(new EmployeeViewModel
                     {
                         Id = employee.Id,
                         Name = employee.Name,
@@ -73,13 +88,16 @@ namespace Demo.Presentation.Controllers
                         Salary = employee.Salary,
                         IsActive = employee.IsActive,
                         CreatedBy = employee.CreatedBy,
-                        LastModifiedBy = employee.LastModifiedBy
+                        LastModifiedBy = employee.LastModifiedBy,
+                        DepartmentId = employee.DepartmentId,
+                        Gender = employee.Gender,
+                        EmployeeType = employee.EmployeeType
                     });
             }else
                 return NotFound();
         }
         [HttpPost]
-        public IActionResult Edit([FromRoute]int id, EmployeeEditViewModel employee)
+        public IActionResult Edit([FromRoute]int id, EmployeeViewModel employee)
         {
             if (ModelState.IsValid)
             {
@@ -96,7 +114,10 @@ namespace Demo.Presentation.Controllers
                         Salary = employee.Salary,
                         IsActive = employee.IsActive,
                         CreatedBy = employee.CreatedBy,
-                        LastModifiedBy = employee.LastModifiedBy
+                        LastModifiedBy = employee.LastModifiedBy,
+                        DepartmentId = employee.DepartmentId,
+                        Gender = employee.Gender,
+                        EmployeeType = employee.EmployeeType
                     });
                     if (result > 0)
                         return RedirectToAction("Index");

@@ -20,6 +20,10 @@ namespace Demo.DataAccess.Data.Configurations
             builder.Property(e => e.EmployeeType)
                    .HasConversion((emp) => emp.ToString(),
                    (emp1) => (EmployeeType)Enum.Parse(typeof(EmployeeType), emp1));
+            builder.HasOne(e => e.Department)
+                     .WithMany(d => d.Employees)
+                     .HasForeignKey(e => e.DepartmentId)
+                     .OnDelete(DeleteBehavior.SetNull);
             base.Configure(builder);
         }
     }

@@ -2,7 +2,7 @@
 
 namespace Demo.Presentation.ViewModels
 {
-    public class EmployeeEditViewModel
+    public class EmployeeViewModel
     {
         public int Id { get; set; }
         [Required]
@@ -29,5 +29,6 @@ namespace Demo.Presentation.ViewModels
         public DateOnly HireDate { get; set; }
         public string Gender { get; set; }
         public string EmployeeType { get; set; }
+        public int? DepartmentId { get; set; }
     }
 }

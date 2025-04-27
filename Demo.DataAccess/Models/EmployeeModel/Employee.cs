@@ -20,5 +20,7 @@ namespace Demo.DataAccess.Models.EmployeeModel
         public DateTime HireDate { get; set; }
         public Gender Gender { get; set; }
         public EmployeeType EmployeeType { get; set; }
+        public int? DepartmentId { get; set; }
+        public Department? Department { get; set; }
     }
 }
