@@ -1,5 +1,5 @@
-﻿using Demo.BusinessLogic.DataTransferObjects;
-using Demo.DataAccess.Models;
+﻿using Demo.BusinessLogic.DataTransferObjects.Department;
+using Demo.DataAccess.Models.DepartmentModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,7 +51,7 @@ namespace Demo.BusinessLogic.Factories
                     Name = createdDepartmentDto.Name,
                     Code = createdDepartmentDto.Code,
                     Description = createdDepartmentDto.Description,
-                    CreatedOn = createdDepartmentDto.DateOfCreation.ToDateTime(new TimeOnly())
+                    CreatedOn = createdDepartmentDto.DateOfCreation.ToDateTime(new TimeOnly()) // This should be replaced with the actual user who created the department
                 };
             }
         }
@@ -60,7 +60,14 @@ namespace Demo.BusinessLogic.Factories
             if (updatedDepartmentDto is null)
                 throw new ArgumentNullException(nameof(updatedDepartmentDto));
             else
-                return updatedDepartmentDto.ToEntity();
+                return new Department
+                {
+                    Id = updatedDepartmentDto.Id,
+                    Name = updatedDepartmentDto.Name,
+                    Code = updatedDepartmentDto.Code,
+                    Description = updatedDepartmentDto.Description,
+                    CreatedOn = updatedDepartmentDto.DateOfCreation.ToDateTime(new TimeOnly()) // This should be replaced with the actual user who created the department
+                };
 
         }
     }
