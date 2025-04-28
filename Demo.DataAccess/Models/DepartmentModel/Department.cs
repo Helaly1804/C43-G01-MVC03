@@ -12,7 +12,7 @@ namespace Demo.DataAccess.Models.DepartmentModel
         public string Name { get; set; } = null!;
         public string Code { get; set; } = null!;
         public string? Description { get; set; }
-        public IEnumerable<Employee> Employees { get; set; } = new HashSet<Employee>();
+        public virtual IEnumerable<Employee> Employees { get; set; } = new HashSet<Employee>();
 
     }
 }

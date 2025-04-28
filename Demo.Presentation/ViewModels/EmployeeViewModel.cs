@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Demo.DataAccess.Models.DepartmentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Demo.Presentation.ViewModels
 {
@@ -27,8 +28,9 @@ namespace Demo.Presentation.ViewModels
         public int LastModifiedBy { get; set; }
         [Display(Name = "Hire Date")]
         public DateOnly HireDate { get; set; }
-        public string Gender { get; set; }
-        public string EmployeeType { get; set; }
+        public string? Gender { get; set; }
+        public string? EmployeeType { get; set; }
         public int? DepartmentId { get; set; }
+        public string? Department { get; set; }
     }
 }

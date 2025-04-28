@@ -39,7 +39,8 @@ namespace Demo.Presentation.Controllers
                         LastModifiedBy = employee1.LastModifiedBy,
                         DepartmentId = employee1.DepartmentId,
                         Gender = employee1.Gender,
-                        EmployeeType = employee1.EmployeeType
+                        EmployeeType = employee1.EmployeeType,
+                        Department = employee1.Department
                     };
                     int result = employeeService.AddEmployee(employee);
                     if (result > 0)
@@ -91,7 +92,8 @@ namespace Demo.Presentation.Controllers
                         LastModifiedBy = employee.LastModifiedBy,
                         DepartmentId = employee.DepartmentId,
                         Gender = employee.Gender,
-                        EmployeeType = employee.EmployeeType
+                        EmployeeType = employee.EmployeeType,
+                        Department = employee.Department
                     });
             }else
                 return NotFound();
@@ -117,7 +119,8 @@ namespace Demo.Presentation.Controllers
                         LastModifiedBy = employee.LastModifiedBy,
                         DepartmentId = employee.DepartmentId,
                         Gender = employee.Gender,
-                        EmployeeType = employee.EmployeeType
+                        EmployeeType = employee.EmployeeType,
+                        Department = employee.Department
                     });
                     if (result > 0)
                         return RedirectToAction("Index");

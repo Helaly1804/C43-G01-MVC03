@@ -16,7 +16,8 @@ namespace Demo.BusinessLogic.Profiles
         {
             CreateMap<Employee, EmployeeDto>()
                 .ForMember(dest => dest.Gender, options => options.MapFrom(src => src.Gender.ToString()))
-                .ForMember(dest => dest.EmployeeType, options => options.MapFrom(src => src.EmployeeType.ToString()));
+                .ForMember(dest => dest.EmployeeType, options => options.MapFrom(src => src.EmployeeType.ToString()))
+                .ForMember(dest => dest.Department, options => options.MapFrom(src => string.IsNullOrEmpty(src.Department.Name) ? null : src.Department.Name));
             CreateMap<CreatedEmployeeDto, Employee>()
                 .ForMember(e => e.Gender,options => options.MapFrom(src => src.Gender))
                 .ForMember(e => e.EmployeeType , options => options.MapFrom(src => src.EmployeeType))
@@ -30,7 +31,8 @@ namespace Demo.BusinessLogic.Profiles
                 .ForMember(dest => dest.EmployeeType, options => options.MapFrom(src => src.EmployeeType.ToString()))
                 .ForMember(dest => dest.HireDate, options => options.MapFrom(dest => DateOnly.FromDateTime(dest.HireDate)))
                 .ForMember(dest => dest.CreatedOn, options => options.MapFrom(src => DateOnly.FromDateTime(src.CreatedOn)))
-                .ForMember(dest => dest.LastModifiedOn, options => options.MapFrom(src => DateOnly.FromDateTime(src.LastModifiedOn)));
+                .ForMember(dest => dest.LastModifiedOn, options => options.MapFrom(src => DateOnly.FromDateTime(src.LastModifiedOn)))
+                .ForMember(dest => dest.Department, options => options.MapFrom(src => string.IsNullOrEmpty(src.Department.Name) ? null : src.Department.Name)); ;
         }
     }
 }
