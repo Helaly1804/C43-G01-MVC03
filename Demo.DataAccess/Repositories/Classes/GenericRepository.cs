@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,20 +24,22 @@ namespace Demo.DataAccess.Repositories.Classes
                 return dbContext.Set<TEntity>().Where(x => x.IsDeleted == false).AsNoTracking().ToList();
 
         }
-        public int add(TEntity department)
+        public void add(TEntity department)
         {
             dbContext.Set<TEntity>().Add(department);
-            return dbContext.SaveChanges();
         }
-        public int update(TEntity department)
+        public void update(TEntity department)
         {
             dbContext.Set<TEntity>().Update(department);
-            return dbContext.SaveChanges();
         }
-        public int delete(TEntity department)
+        public void delete(TEntity department)
         {
             dbContext.Set<TEntity>().Remove(department);
-            return dbContext.SaveChanges();
+        }
+
+        public IEnumerable<TEntity> getAll(Expression<Func<TEntity, bool>> predicate)
+        {
+            return dbContext.Set<TEntity>().Where(predicate).ToList();
         }
     }
 }

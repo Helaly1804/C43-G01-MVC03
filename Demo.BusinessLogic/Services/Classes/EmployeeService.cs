@@ -12,34 +12,48 @@ using System.Threading.Tasks;
 
 namespace Demo.BusinessLogic.Services.Classes
 {
-    public class EmployeeService(IEmployeeRepository employeeRepository,IMapper mapper) : IEmployeeService
+    public class EmployeeService(IUnitOfWork unitOfWork,IMapper mapper) : IEmployeeService
     {
         public int AddEmployee(CreatedEmployeeDto employee)
         {
-            return employeeRepository.add(mapper.Map<CreatedEmployeeDto, Employee>(employee));
+            unitOfWork.EmployeeRepository.add(mapper.Map<CreatedEmployeeDto, Employee>(employee));
+            return unitOfWork.SaveChanges();
         }
 
         public bool DeleteEmployee(int id)
         {
-            var employee = employeeRepository.getById(id);
+            var employee = unitOfWork.EmployeeRepository.getById(id);
             if (employee is null)
                 return false;
             else
             { 
                 employee.IsDeleted = true;
-                return employeeRepository.update(employee) > 0 ? true : false;
+                unitOfWork.EmployeeRepository.update(employee);
+                return unitOfWork.SaveChanges() > 0;
             }
         }
 
         public IEnumerable<EmployeeDto> GetAllEmployees(bool withTracking = false)
         {
-            var employees = employeeRepository.getAll(withTracking);
+            var employees = unitOfWork.EmployeeRepository.getAll(withTracking);
             return mapper.Map<IEnumerable<Employee>,IEnumerable<EmployeeDto>>(employees);
+        }
+
+        public IEnumerable<EmployeeDto> GetAllEmployees(string? employeeSearchName)
+        {
+            IEnumerable<Employee> employees;
+            if (string.IsNullOrEmpty(employeeSearchName))
+                return GetAllEmployees();
+            else
+            {
+                employees = unitOfWork.EmployeeRepository.getAll(x => x.Name.ToLower().Contains(employeeSearchName.ToLower()) && x.IsDeleted == false);
+                return mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(employees);
+            }
         }
 
         public EmployeeDetailsDto? GetEmployeeDetails(int id)
         {
-            var employee = employeeRepository.getById(id);
+            var employee = unitOfWork.EmployeeRepository.getById(id);
             if (employee is null)
                 return null;
             else
@@ -48,7 +62,8 @@ namespace Demo.BusinessLogic.Services.Classes
 
         public int UpdateEmployee(UpdatedEmployeeDto employee)
         {
-            return employeeRepository.update(mapper.Map<UpdatedEmployeeDto, Employee>(employee));
+            unitOfWork.EmployeeRepository.update(mapper.Map<UpdatedEmployeeDto, Employee>(employee));
+            return unitOfWork.SaveChanges();
         }
     }
 }
