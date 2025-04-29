@@ -11,32 +11,35 @@ using System.Threading.Tasks;
 
 namespace Demo.BusinessLogic.Services.Classes
 {
-    public class DepartmentService(IDepartmentRepository departmentRepository) : IDepartmentService
+    public class DepartmentService(IUnitOfWork unitOfWork) : IDepartmentService
     {
         public IEnumerable<DepartmentDto> GetAllDepartments()
         {
-            var departments = departmentRepository.getAll();
+            var departments = unitOfWork.DepartmentRepository.getAll();
             return departments.Select(d => d.ToDepartmentDto());
         }
         public DepartmentDetailsDto? GetDepartmentDetails(int id)
         {
-            var department = departmentRepository.getById(id);
+            var department = unitOfWork.DepartmentRepository.getById(id);
             return department is null ? null : department.ToDepartmentDetailsDto();
         }
         public int AddDepartment(CreatedDepartmentDto department)
         {
-            return departmentRepository.add(department.ToEntity());
+            unitOfWork.DepartmentRepository.add(department.ToEntity());
+            return unitOfWork.SaveChanges();
         }
         public int UpdateDepartment(UpdatedDepartmentDto department)
         {
-            return departmentRepository.update(department.ToEntity());
+            unitOfWork.DepartmentRepository.update(department.ToEntity());
+            return unitOfWork.SaveChanges();
         }
         public int DeleteDepartment(int id)
         {
-            var department = departmentRepository.getById(id);
+            var department = unitOfWork.DepartmentRepository.getById(id);
             if (department is null)
                 throw new ArgumentNullException(nameof(department));
-            return departmentRepository.delete(department);
+            unitOfWork.DepartmentRepository.delete(department);
+            return unitOfWork.SaveChanges();
         }
     }
 }
